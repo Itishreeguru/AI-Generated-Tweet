@@ -6,16 +6,16 @@ from langchain_community.utilities import WikipediaAPIWrapper
 from dotenv import load_dotenv
 import groq
 
-# ✅ Load Groq API key
+#  Load Groq API key
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
 
-# ✅ Initialize Groq Client
+#  Initialize Groq Client
 client = groq.Client(api_key=groq_api_key)
 
-# ✅ Streamlit Page Config
-st.set_page_config(page_title="AI Tweet Generator", page_icon="🐦")
-st.title('🧠 AI Tweet Generator (Groq + LangChain)')
+#  Streamlit Page Config
+st.set_page_config(page_title="AI Tweet Generator", page_icon=" ")
+st.title(' AI Tweet Generator (Groq + LangChain)')
 
 # --- USER INPUT ---
 topic = st.text_input("Enter a Tweet Topic:")
@@ -60,37 +60,38 @@ def generate_response(prompt_text):
 
 # --- GENERATION FLOW ---
 if topic:
-    st.info("⏳ Generating tweet content...")
+    st.info(" Generating tweet content...")
     
     # Title
     tweet_title = generate_response(
         title_template.format_prompt(topic=topic, sentiment=sentiment).to_string()
     )
-    st.write("✅ **Generated Tweet Title:**", tweet_title)
+    st.write(" **Generated Tweet Title:**", tweet_title)
     
     # Wikipedia Info
     wiki_research = wiki.run(topic)
-    st.write("📚 **Wikipedia Research:**", wiki_research)
+    st.write(" **Wikipedia Research:**", wiki_research)
     
     # Final Tweet
     tweet = generate_response(
         tweet_template.format_prompt(title=tweet_title, wikipedia_research=wiki_research).to_string()
     )
-    st.success("✍️ **Generated Tweet:**")
+    st.success(" **Generated Tweet:**")
     st.write(tweet)
     
     # Hashtags
     hashtags = generate_response(
         hashtag_template.format_prompt(topic=topic).to_string()
     )
-    st.info("🏷️ **Hashtag Suggestions:**")
+    st.info(" **Hashtag Suggestions:**")
     st.write(hashtags)
 
 # --- Optional Reply Generator ---
 if generate_reply and reply_to:
     st.divider()
-    st.write("💬 **Generated Reply Tweet:**")
+    st.write(" **Generated Reply Tweet:**")
     reply = generate_response(
         reply_template.format_prompt(input_tweet=reply_to).to_string()
     )
     st.write(reply)
+
